@@ -44,11 +44,11 @@ setup(
         encoding='utf-8'
     ).read(),
     long_description_content_type="text/markdown",
-    url='https://github.com/venth/aws-adfs',
-    download_url='https://github.com/venth/aws-adfs/tarball/{}'.format(version),
-    author='Venth',
-    author_email='artur.krysiak.warszawa@gmail.com',
-    maintainer='Venth',
+    url='https://github.com/fedebarbero/storm-aws-adfs',
+    download_url='https://github.com/fedebarbero/storm-aws-adfs/{}'.format(version),
+    author='Barbero',
+    author_email='f.barbero@reply.it',
+    maintainer='Barbero',
     keywords='aws adfs console tool',
     packages=['aws_adfs'],
     classifiers=[
@@ -72,7 +72,7 @@ setup(
         'test': tests_require
     },
     entry_points={
-        'console_scripts': ['aws-adfs=aws_adfs.commands:cli']
+        'console_scripts': ['storm-aws-adfs=storm_aws_adfs.commands:cli']
     },
     include_package_data=True,
 )

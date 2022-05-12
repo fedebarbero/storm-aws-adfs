@@ -27,7 +27,7 @@ authors = [
 readme = "README.md"
 
 [tool.poetry.scripts]
-storm-aws-adfs = "aws_adfs.commands:cli"
+storm-aws-adfs = "storm_aws_adfs.commands:cli"
 
 [tool.poetry.dependencies]
 python = "^3.6"

@@ -1,3 +1,1 @@
 include README.md
-include versioneer.py
-include aws_adfs/_version.py
