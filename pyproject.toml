@@ -4,8 +4,8 @@ build-backend = "poetry.core.masonry.api"
 
 [tool]
 [tool.poetry]
-name = "aws-adfs"
-version = "2.0.3"
+name = "storm-aws-adfs"
+version = "1.0.0"
 description = "AWS CLI authenticator via ADFS - small command-line tool to authenticate via ADFS and assume chosen role"
 keywords = ["aws", "adfs", "console", "tool"]
 classifiers = [
@@ -21,12 +21,13 @@ classifiers = [
     "Programming Language :: Python :: 3"
 ]
 authors = [
+    "Federico BARBERO <f.barbero@reply.it>",
     "Venth <artur.krysiak.warszawa@gmail.com>"
 ]
 readme = "README.md"
 
 [tool.poetry.scripts]
-aws-adfs = "aws_adfs.commands:cli"
+storm-aws-adfs = "aws_adfs.commands:cli"
 
 [tool.poetry.dependencies]
 python = "^3.6"

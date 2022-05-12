@@ -153,6 +153,7 @@ def _retrieve_roles_page(roles_page_url, context, session, ssl_verification_enab
     session.cookies.save(ignore_discard=True)
 
     html_response = ET.fromstring(response.text, ET.HTMLParser())
+    #logging.error(f"BARBERO - RESPONSE - {html_response}")
     return roles_assertion_extractor.extract(html_response)
 
 

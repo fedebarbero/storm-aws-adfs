@@ -28,6 +28,7 @@ def authenticate(config, username=None, password=None, assertfile=None):
 
     aggregated_principal_roles = None
     if response.status_code == 200:
+        #logging.error(f"BARBERO - {response} {config} {session} {assertfile}")
         extract_strategy = _strategy(response, config, session, assertfile)
 
         principal_roles, assertion, aws_session_duration = extract_strategy()
@@ -84,18 +85,24 @@ def _aggregate_roles_by_account_alias(session,
                                       password,
                                       assertion,
                                       principal_roles):
+    #logging.error("BARBERO: INIT")
     account_aliases = account_aliases_fetcher.account_aliases(session, username, password, config.provider_id, assertion, config)
+    #logging.error(u'BARBERO: Aliases {}'.format(account_aliases))
     aggregated_accounts = {}
-    for (principal_arn, role_arn) in principal_roles:
-        role_name = role_arn.split(':role/')[1]
-        account_no = role_arn.split(':')[4]
+    for proles in principal_roles:
+        for (principal_arn, role_arns) in proles.items():
+            for role_arn in role_arns:
+                role_name = role_arn.split(':role/')[1]
+                account_no = role_arn.split(':')[4]
 
-        if account_no not in account_aliases:
-            account_aliases[account_no] = account_no
+                if account_no not in account_aliases:
+                    account_aliases[account_no] = account_no
 
-        if account_aliases[account_no] not in aggregated_accounts:
-            aggregated_accounts[account_aliases[account_no]] = {}
-        aggregated_accounts[account_aliases[account_no]][role_arn] = {'name': role_name, 'principal_arn': principal_arn}
+                if account_aliases[account_no] not in aggregated_accounts:
+                    aggregated_accounts[account_aliases[account_no]] = {}
+                aggregated_accounts[account_aliases[account_no]][role_arn] = {'name': role_name, 'principal_arn': principal_arn}
+        
+    #logging.error(u'BARBERO: aggregated_accounts {}'.format(aggregated_accounts))
     return aggregated_accounts
 
 
@@ -153,6 +160,8 @@ def _strategy(response, config, session, assertfile=None):
         chosen_strategy = _azure_mfa_extractor
     elif _is_azure_cloud_mfa_authentication(html_response):
         chosen_strategy = _azure_cloud_mfa_extractor
+
+    #logging.error(f"BARBERO - Strategy - {chosen_strategy.__name__}")
 
     return chosen_strategy()
 

@@ -8,6 +8,7 @@ default_session_duration = 3600
 
 
 def extract(html):
+
     assertion = None
 
     # Check to see if login returned an error
@@ -33,10 +34,22 @@ def extract(html):
     raw_roles = saml.findall(
         './/{*}Attribute[@Name="https://aws.amazon.com/SAML/Attributes/Role"]/{*}AttributeValue'
     )
+    #print(f"BARBERO - ROLES - {[element.text for element in raw_roles]}")
     aws_roles = [element.text.split(',') for element in raw_roles]
 
+    #print(f"BARBERO - HTML - {aws_roles}")
+
     # Note the format of the attribute value is provider_arn, role_arn
-    principal_roles = [role for role in aws_roles if ':saml-provider/' in role[0]]
+    principal_roles = [{role[len(role)-1]: role[:-1]} for role in aws_roles if ':saml-provider/' in role[len(role)-1]]
+    # principal_roles = []
+
+    # for x in aws_roles:
+    #     for y in x:
+    #         print(y)
+    #         if ':saml-provider/' in y:
+    #             principal_roles.append(y)
+
+    #print(f"BARBERO - principal_roles - {principal_roles}")
 
     aws_session_duration = default_session_duration
     # Retrieve session duration
